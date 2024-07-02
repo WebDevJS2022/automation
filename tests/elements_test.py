@@ -12,4 +12,9 @@ class TestElements:
             text_box_page.open()
             driver.execute_script("window.scrollTo(0, 700)")  # СКРОЛЛИНГ
             text_box_page.fill_all_fields(self)
-            time.sleep(2)
+            time.sleep(1)
+            output_name, output_email, output_cur_addr, output_per_addr = text_box_page.check_filled_form()
+            print(output_name)
+            print(output_email)
+            print(output_cur_addr)
+            print(output_per_addr)
