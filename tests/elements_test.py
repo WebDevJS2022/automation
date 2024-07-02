@@ -1,9 +1,15 @@
 import time
-from pages.base_page import BasePage
+
 from conftest import driver
+from pages.elemets_page import TextBoxPage
 
 
-def test(driver):
-    page = BasePage(driver, 'https://www.google.co.uz/?hl=ru')
-    page.open()
-    time.sleep(3)
+class TestElements:
+    class TestTextBox:
+
+        def test_text_box(self, driver):
+            text_box_page = TextBoxPage(driver, 'https://demoqa.com/text-box')
+            text_box_page.open()
+            driver.execute_script("window.scrollTo(0, 700)")  # СКРОЛЛИНГ
+            text_box_page.fill_all_fields(self)
+            time.sleep(2)
