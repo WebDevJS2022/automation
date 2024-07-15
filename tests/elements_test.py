@@ -1,7 +1,7 @@
 import time
 
 from conftest import driver
-from pages.elemets_page import TextBoxPage, CheckBoxPage, RadioButtonPage
+from pages.elemets_page import TextBoxPage, CheckBoxPage, RadioButtonPage, WebTablePage
 
 
 class TestElements:
@@ -45,3 +45,11 @@ class TestElements:
             assert output_yes == 'Yes', "'Yes' have not been selected"
             assert output_impressive == 'Impressive', "'Impressive' have not been selected"
             assert output_no == 'No', "'No' have not been selected"
+
+    class TestWebTable:
+
+        def test_web_table_add_person(self, driver):
+            web_table_page = WebTablePage(driver, 'https://demoqa.com/webtables')
+            web_table_page.open()
+            web_table_page.add_new_person()
+            time.sleep(2)
