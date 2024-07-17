@@ -1,3 +1,4 @@
+import requests
 from selenium.webdriver import Keys
 import random
 
@@ -6,7 +7,7 @@ from selenium.webdriver.common.by import By
 from conftest import driver
 from generator.generator import generated_person
 from locators.elements_page_locators import TextBoxPageLocators, CheckBoxPageLocators, RadioButtonPageLocators, \
-    WebTablePageLocators, ButtonsPageLocators
+    WebTablePageLocators, ButtonsPageLocators, LinksPageLocators
 from pages.base_page import BasePage
 
 
@@ -172,3 +173,26 @@ class ButtonsPage(BasePage):
 
     def check_clicked_on_the_button(self, element):
         return self.element_is_present(element).text
+
+
+class LinksPage(BasePage):
+    locators = LinksPageLocators()
+
+    def check_new_tab_simple_link(self, driver):
+        simple_link = self.element_is_visible(self.locators.SIMPLE_LINK)
+        link_href = simple_link.get_attribute('href')
+        request = requests.get(f"{link_href}")
+        if request.status_code == 200:
+            simple_link.click()
+            self.driver.switch_to.window(self.driver.window_handles[1])
+            url = self.driver.current_url
+            return link_href, url
+        else:
+            return link_href, request.status_code
+
+    def check_broken_link(self, url):
+        request = requests.get(url)
+        if request.status_code == 200:
+            self.element_is_present(self.locators.BAD_REQUEST).click()
+        else:
+            return request.status_code
