@@ -1,3 +1,7 @@
+import os
+import time
+from sys import path
+
 import requests
 from selenium.webdriver import Keys
 import random
@@ -202,4 +206,8 @@ class UploadAndDownloadPage(BasePage):
     locators = UploadAndDownloadPageLocators()
 
     def upload_file(self):
-        file_name, name = generated_file()
+        file_name, path = generated_file()
+        self.element_is_present(self.locators.UPLOAD_FILE).send_keys(path)
+        os.remove(path)
+        text = self.element_is_present(self.locators.UPLOADED_RESULT).text
+        return file_name.split('\\')[-1], text.split('\\')[-1]

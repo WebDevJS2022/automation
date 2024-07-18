@@ -71,4 +71,5 @@ class LinksPageLocators:
 
 
 class UploadAndDownloadPageLocators:
-    pass
+    UPLOAD_FILE = (By.CSS_SELECTOR, 'input[id="uploadFile"]')
+    UPLOADED_RESULT = (By.CSS_SELECTOR, 'p[id="uploadedFilePath"]')

@@ -121,7 +121,8 @@ class TestElements:
         def test_upload_file(self, driver):
             upload_download_page = UploadAndDownloadPage(driver, 'https://demoqa.com/upload-download')
             upload_download_page.open()
-            upload_download_page.upload_file()
+            file_name, result = upload_download_page.upload_file()
+            assert file_name == result
 
         def test_download_file(self, driver):
             links_page = UploadAndDownloadPage(driver, 'https://demoqa.com/upload-download')
