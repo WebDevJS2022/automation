@@ -2,7 +2,8 @@ import random
 import time
 
 from conftest import driver
-from pages.elemets_page import TextBoxPage, CheckBoxPage, RadioButtonPage, WebTablePage, ButtonsPage, LinksPage
+from pages.elemets_page import TextBoxPage, CheckBoxPage, RadioButtonPage, WebTablePage, ButtonsPage, LinksPage, \
+    UploadAndDownloadPage
 
 
 class TestElements:
@@ -114,3 +115,14 @@ class TestElements:
             links_page.open()
             response_code = links_page.check_broken_link('https://demoqa.com/bad-request')
             assert response_code == 400, "the link works or the status code in son 400"
+
+    class TestUploadAndDownload:
+
+        def test_upload_file(self, driver):
+            upload_download_page = UploadAndDownloadPage(driver, 'https://demoqa.com/upload-download')
+            upload_download_page.open()
+            upload_download_page.upload_file()
+
+        def test_download_file(self, driver):
+            links_page = UploadAndDownloadPage(driver, 'https://demoqa.com/upload-download')
+            links_page.open()
