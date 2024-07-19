@@ -231,6 +231,13 @@ class UploadAndDownloadPage(BasePage):
 class DynamicPropertiesPage(BasePage):
     locators = DynamicPropertiesPageLocators()
 
+    def check_enable_button(self):
+        try:
+            self.element_is_clickable(self.locators.ENABLE_BUTTON)
+        except TimeoutException:
+            return False
+        return True
+
     def check_changed_of_color(self):
         color_button = self.element_is_present(self.locators.COLOR_CHANGE_BUTTON)
         color_button_before = color_button.value_of_css_property('color')
