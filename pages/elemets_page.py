@@ -4,6 +4,7 @@ import time
 from sys import path
 
 import requests
+from selenium.common import TimeoutException
 from selenium.webdriver import Keys
 import random
 
@@ -236,3 +237,10 @@ class DynamicPropertiesPage(BasePage):
         time.sleep(6)
         color_button_after = color_button.value_of_css_property('color')
         return color_button_before, color_button_after
+
+    def check_appear_of_button(self):
+        try:
+            self.element_is_visible(self.locators.VISIBLE_AFTER_FIVE_SEC_BUTTON)
+        except TimeoutException:
+            return False
+        return True
