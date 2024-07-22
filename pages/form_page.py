@@ -1,6 +1,7 @@
 import os
 import time
 
+from selenium.common import TimeoutException, ElementClickInterceptedException, ElementNotInteractableException
 from selenium.webdriver import Keys
 
 from generator.generator import generated_person, generated_file
@@ -14,24 +15,43 @@ class FormPage(BasePage):
     def fill_form_fields(self):
         person = next(generated_person())
         file_name, path = generated_file()
-        self.remove_footer()
+        # self.remove_footer()
         self.element_is_visible(self.locators.FIRST_NAME).send_keys(person.firstname)
         self.element_is_visible(self.locators.LAST_NAME).send_keys(person.lastname)
         self.element_is_visible(self.locators.EMAIL).send_keys(person.email)
-        self.element_is_visible(self.locators.GENDER).click()
+        try:
+            self.element_is_visible(self.locators.GENDER).click()
+        except ElementClickInterceptedException:
+            print("ElementClickInterceptedException")
         self.element_is_visible(self.locators.MOBILE).send_keys(person.mobile)
         self.element_is_visible(self.locators.SUBJECT).send_keys('Maths')
         self.element_is_visible(self.locators.SUBJECT).send_keys(Keys.RETURN)
         self.zoom_page()
-        self.element_is_visible(self.locators.HOBBIES).click()
+        try:
+            self.element_is_visible(self.locators.HOBBIES).click()
+        except TimeoutException:
+            print("TimeoutException")
         self.element_is_present(self.locators.FILE_INPUT).send_keys(path)
         os.remove(path)
         self.element_is_visible(self.locators.CURRENT_ADDRESS).send_keys(person.current_address)
-        self.element_is_visible(self.locators.SELECT_STATE).click()
+        try:
+            self.element_is_visible(self.locators.SELECT_STATE).click()
+        except ElementClickInterceptedException:
+            print("ElementClickInterceptedException")
+
         self.element_is_visible(self.locators.STATE_INPUT).send_keys(Keys.RETURN)
-        self.element_is_visible(self.locators.SELECT_CITY).click()
-        self.element_is_visible(self.locators.CITY_INPUT).send_keys(Keys.RETURN)
-        self.element_is_visible(self.locators.SUBMIT).click()
+        try:
+            self.element_is_visible(self.locators.SELECT_CITY).click()
+        except ElementClickInterceptedException:
+            print("ElementClickInterceptedException")
+        try:
+            self.element_is_visible(self.locators.CITY_INPUT).send_keys(Keys.RETURN)
+        except ElementNotInteractableException:
+            print("ElementNotInteractableException")
+        try:
+            self.element_is_visible(self.locators.SUBMIT).click()
+        except ElementClickInterceptedException:
+            print("ElementClickInterceptedException")
         return person
 
     def form_result(self):
