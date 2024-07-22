@@ -16,3 +16,13 @@ class BrowserWindowsPage(BasePage):
         self.driver.switch_to.window(self.driver.window_handles[1])
         text_title = self.element_is_present(self.locators.TITLE_NEW).text
         return text_title
+
+    def check_opened_new_window(self):
+        try:
+            self.element_is_visible(self.locators.NEW_WINDOW_BUTTON).click()
+        except ElementClickInterceptedException:
+            print("ElementClickInterceptedException")
+
+        self.driver.switch_to.window(self.driver.window_handles[1])
+        text_title = self.element_is_present(self.locators.TITLE_NEW).text
+        return text_title
