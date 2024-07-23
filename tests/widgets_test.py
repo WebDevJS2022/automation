@@ -1,5 +1,7 @@
+import time
+
 from conftest import driver
-from pages.widgets_page import AccordianPage
+from pages.widgets_page import AccordianPage, AutoCompletePage
 
 
 class TestWidgets:
@@ -15,3 +17,27 @@ class TestWidgets:
             assert first_title == 'What is Lorem Ipsum?' and first_content > 0, "First accordian incorrect"
             assert second_title == 'Where does it come from?' and second_content > 0, "Second accordian incorrect"
             assert third_title == 'Why do we use it?' and third_content > 0, "Third accordian incorrect"
+
+    class TestAutoComplete:
+
+        def test_auto_complete(self, driver):
+            auto_complete_page = AutoCompletePage(driver, 'https://demoqa.com/auto-complete')
+            auto_complete_page.open()
+            colors = auto_complete_page.fill_input_multi()
+            colors_result = auto_complete_page.check_color_in_multi()
+            assert colors == colors_result, "Colors not added"
+
+        def test_remove_value_from_multi(self, driver):
+            autocomplete_page = AutoCompletePage(driver, 'https://demoqa.com/auto-complete')
+            autocomplete_page.open()
+            autocomplete_page.fill_input_multi()
+            count_value_before, count_value_after = autocomplete_page.remove_value_from_multi()
+            # autocomplete_page.check_remove_all_button()
+            assert count_value_before != count_value_after, "multi count before and after are equal"
+
+        def test_fill_single_autocomplete(self, driver):
+            autocomplete_page = AutoCompletePage(driver, 'https://demoqa.com/auto-complete')
+            autocomplete_page.open()
+            color = autocomplete_page.fill_input_single()
+            color_result = autocomplete_page.check_color_in_single()
+            assert color == color_result, "single color has not been added"
