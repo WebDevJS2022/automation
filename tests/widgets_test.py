@@ -2,7 +2,7 @@ import time
 
 from conftest import driver
 from pages.widgets_page import AccordianPage, AutoCompletePage, DatePickerPage, SliderPage, ProgressBarPage, TabsPage, \
-    ToolTipsPage
+    ToolTipsPage, MenuPage
 
 
 class TestWidgets:
@@ -95,3 +95,10 @@ class TestWidgets:
             assert field_text == 'You hovered over the text field', "hover missing or incorrect content"
             assert contrary_text == 'You hovered over the Contrary', "hover missing or incorrect content"
             assert section_text == 'You hovered over the 1.10.32', "hover missing or incorrect content"
+
+    class TestMenuPage:
+        def test_menu_items(self, driver):
+            menu_page = MenuPage(driver, 'https://demoqa.com/menu')
+            menu_page.open()
+            data = menu_page.check_menu()
+            assert data == 8, "MenuNav has not 8 tabs"
