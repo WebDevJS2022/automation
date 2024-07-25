@@ -1,7 +1,8 @@
 import time
 
 from conftest import driver
-from pages.widgets_page import AccordianPage, AutoCompletePage, DatePickerPage, SliderPage, ProgressBarPage, TabsPage
+from pages.widgets_page import AccordianPage, AutoCompletePage, DatePickerPage, SliderPage, ProgressBarPage, TabsPage, \
+    ToolTipsPage
 
 
 class TestWidgets:
@@ -83,3 +84,14 @@ class TestWidgets:
             assert what_button == 'What' and what_content != 0, "tab What not pressed or text missing"
             assert origin_button == 'Origin' and origin_content != 0, "tab Origin not pressed or text missing"
             assert use_button == 'Use' and use_content != 0, "tab Use not pressed or text missing"
+
+    class TestToolTips:
+
+        def test_tool_tips(self, driver):
+            tool_tips_page = ToolTipsPage(driver, 'https://demoqa.com/tool-tips')
+            tool_tips_page.open()
+            button_text, field_text, contrary_text, section_text = tool_tips_page.check_tool_tips()
+            assert button_text == 'You hovered over the Button', "hover missing or incorrect content"
+            assert field_text == 'You hovered over the text field', "hover missing or incorrect content"
+            assert contrary_text == 'You hovered over the Contrary', "hover missing or incorrect content"
+            assert section_text == 'You hovered over the 1.10.32', "hover missing or incorrect content"
