@@ -1,7 +1,7 @@
 import time
 
 from conftest import driver
-from pages.widgets_page import AccordianPage, AutoCompletePage, DatePickerPage, SliderPage, ProgressBarPage
+from pages.widgets_page import AccordianPage, AutoCompletePage, DatePickerPage, SliderPage, ProgressBarPage, TabsPage
 
 
 class TestWidgets:
@@ -70,3 +70,16 @@ class TestWidgets:
             progress_bar.open()
             before, after = progress_bar.change_progress_bar_value()
             assert before != after, "progress bar has not changed value"
+
+    class TestTabsPage:
+
+        def test_tabs(self, driver):
+            tabs = TabsPage(driver, 'https://demoqa.com/tabs')
+            tabs.open()
+            what_button, what_content = tabs.check_tabs('what')
+            origin_button, origin_content = tabs.check_tabs('origin')
+            use_button, use_content = tabs.check_tabs('use')
+            # more_button, more_content = tabs.check_tabs('more')
+            assert what_button == 'What' and what_content != 0, "tab What not pressed or text missing"
+            assert origin_button == 'Origin' and origin_content != 0, "tab Origin not pressed or text missing"
+            assert use_button == 'Use' and use_content != 0, "tab Use not pressed or text missing"
